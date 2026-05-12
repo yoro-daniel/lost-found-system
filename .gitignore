@@ -1,0 +1,7 @@
+database/sessions/
+database/*.sqlite
+storage/sessions/
+vendor/
+.env
+public/uploads/items/*
+!public/uploads/items/.gitkeep
