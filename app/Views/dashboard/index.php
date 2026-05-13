@@ -41,13 +41,13 @@
   </div>
   <div class="col-xl-5">
     <section class="panel">
-      <h2>Email Delivery</h2>
+      <h2>SMS Delivery</h2>
       <div class="table-responsive">
         <table class="table align-middle">
           <thead><tr><th>Recipient</th><th>Status</th><th>Date</th></tr></thead>
           <tbody>
-            <?php foreach ($emailLogs as $log): ?>
-              <tr><td><?= h($log['recipient_email']) ?></td><td><span class="badge text-bg-<?= $log['status'] === 'sent' ? 'success' : 'danger' ?>"><?= h($log['status']) ?></span></td><td><?= h($log['created_at']) ?></td></tr>
+            <?php foreach ($smsLogs as $log): ?>
+              <tr><td><?= h($log['recipient_phone']) ?></td><td><span class="badge text-bg-<?= $log['status'] === 'sent' ? 'success' : 'danger' ?>"><?= h($log['status']) ?></span></td><td><?= h($log['created_at']) ?></td></tr>
             <?php endforeach; ?>
           </tbody>
         </table>

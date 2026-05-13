@@ -1,7 +1,7 @@
 <section class="auth-shell">
   <div class="auth-panel">
     <p class="eyebrow">Two-step verification</p>
-    <h1>Enter the OTP sent to your email.</h1>
+    <h1>Enter the OTP sent to your phone.</h1>
     <p class="text-secondary">The code expires in 10 minutes.</p>
     <form method="post" action="<?= url('otp.post') ?>" class="needs-validation mt-4" novalidate>
       <?= csrf_field() ?>

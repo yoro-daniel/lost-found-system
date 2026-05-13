@@ -18,7 +18,7 @@ class ReportController extends Controller
             'stats' => array_merge(Item::stats(), ['pending_claims' => Claim::pendingCount()]),
             'items' => Item::search([]),
             'activities' => Activity::recent(20),
-            'emailLogs' => Activity::emailLogs(20),
+            'smsLogs' => Activity::smsLogs(20),
         ]);
     }
 }

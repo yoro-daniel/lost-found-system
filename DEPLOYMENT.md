@@ -127,25 +127,59 @@ DATABASE_URL=mysql://avnadmin:your-aiven-password@lostfound-db-lost-found-system
 
 Still add `DB_SSL_CA` because the app needs the Aiven CA certificate for SSL.
 
-## 6. PHPMailer Gmail SMTP on Render
+## 6. Twilio SMS on Render
+
+### Create a Twilio account
+
+1. Go to `https://www.twilio.com/try-twilio`.
+2. Create an account and verify your email.
+3. Verify your personal phone number.
+4. In Twilio Console, open `Messaging`.
+5. Try SMS Messaging and get a Twilio trial phone number.
+6. Copy these values from Twilio Console:
+   - Account SID
+   - Auth Token
+   - Twilio phone number
+
+For trial accounts, Twilio only sends SMS to verified recipient phone numbers. Add your phone in Twilio Console under verified caller IDs or verified recipients before testing OTP.
 
 Add these Render environment variables:
 
 ```env
-MAIL_HOST=smtp.gmail.com
-MAIL_PORT=587
-MAIL_USERNAME=schoolyoro@gmail.com
-MAIL_PASSWORD=your-16-character-gmail-app-password
-MAIL_FROM_ADDRESS=schoolyoro@gmail.com
-MAIL_FROM_NAME=Lost and Found Office
+TWILIO_ACCOUNT_SID=your-account-sid
+TWILIO_AUTH_TOKEN=your-auth-token
+TWILIO_FROM_NUMBER=+15551234567
+TWILIO_MESSAGING_SERVICE_SID=
+OTP_FALLBACK_PHONE=+639171234567
+TWILIO_TIMEOUT=12
 ```
 
 Important:
 
-- Use a Gmail App Password, not your normal Gmail password.
-- Paste the app password without spaces.
-- The Gmail account in `MAIL_USERNAME` should be the same account that generated the app password.
-- If Render logs show `SMTP Error: Could not authenticate`, generate a fresh app password in Google Account Security and update `MAIL_PASSWORD`.
+- Use E.164 phone number format, including the plus sign and country code.
+- On a Twilio trial account, the OTP recipient must be a verified recipient number in Twilio.
+- `OTP_FALLBACK_PHONE` is used for seeded/demo users that do not yet have a phone number in the database.
+- If you use a Twilio Messaging Service, set `TWILIO_MESSAGING_SERVICE_SID`; otherwise leave it blank and use `TWILIO_FROM_NUMBER`.
+
+### Update your existing Aiven database for Twilio
+
+If your Aiven database was already created before Twilio was added, run this file once in MySQL Workbench:
+
+```text
+database/migrations/2026_05_13_twilio_sms.sql
+```
+
+Then set your admin phone number:
+
+```sql
+USE defaultdb;
+
+UPDATE users
+SET phone = '+639171234567'
+WHERE email = 'schoolyoro@gmail.com';
+```
+
+Use your real verified Twilio recipient phone number in E.164 format.
 
 ## 7. Cloudinary on Render
 
@@ -173,7 +207,7 @@ After environment variables are set:
 schoolyoro@gmail.com / Testing!1
 ```
 
-5. Check your email for the OTP.
+5. Check your phone for the OTP SMS.
 
 ## 9. Troubleshooting
 
@@ -184,12 +218,12 @@ Database connection fails:
 - Confirm database name, username, and password.
 - Import `schema.sql` before `seed.sql`.
 
-Email fails:
+SMS fails:
 
-- Check the `email_logs` table.
-- Confirm Gmail app password is valid.
-- Confirm `MAIL_USERNAME` and `MAIL_FROM_ADDRESS` are the same Gmail address.
-- Paste the app password without spaces.
+- Check the `sms_logs` table.
+- Confirm Twilio Account SID and Auth Token are correct.
+- Confirm your Twilio sender number is SMS-capable.
+- On a Twilio trial account, confirm the recipient phone number is verified.
 
 Images fail:
 

@@ -1,7 +1,7 @@
 USE defaultdb;
 
 DROP TABLE IF EXISTS activity_logs;
-DROP TABLE IF EXISTS email_logs;
+DROP TABLE IF EXISTS sms_logs;
 DROP TABLE IF EXISTS claims;
 DROP TABLE IF EXISTS items;
 DROP TABLE IF EXISTS locations;
@@ -12,6 +12,7 @@ CREATE TABLE users (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(120) NOT NULL,
   email VARCHAR(160) NOT NULL UNIQUE,
+  phone VARCHAR(40) NULL,
   password_hash VARCHAR(255) NOT NULL,
   role ENUM('admin', 'user') NOT NULL DEFAULT 'user',
   status ENUM('active', 'inactive') NOT NULL DEFAULT 'active',
@@ -73,15 +74,15 @@ CREATE TABLE claims (
   INDEX idx_claims_item_status (item_id, status)
 );
 
-CREATE TABLE email_logs (
+CREATE TABLE sms_logs (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  recipient_email VARCHAR(160) NOT NULL,
-  subject VARCHAR(255) NOT NULL,
-  body MEDIUMTEXT NOT NULL,
+  recipient_phone VARCHAR(40) NOT NULL,
+  message TEXT NOT NULL,
+  provider_sid VARCHAR(80) NULL,
   status ENUM('sent', 'failed') NOT NULL,
   error_message TEXT NULL,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  INDEX idx_email_logs_status (status)
+  INDEX idx_sms_logs_status (status)
 );
 
 CREATE TABLE activity_logs (

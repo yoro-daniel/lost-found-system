@@ -20,15 +20,13 @@ return [
         'ssl_ca_path' => env('DB_SSL_CA_PATH', ''),
         'ssl_ca' => env('DB_SSL_CA', ''),
     ],
-    'mail' => [
-        'host' => env('MAIL_HOST', 'smtp.gmail.com'),
-        'port' => (int) env('MAIL_PORT', '587'),
-        'username' => env('MAIL_USERNAME', ''),
-        'password' => env('MAIL_PASSWORD', ''),
-        'from_address' => env('MAIL_FROM_ADDRESS', ''),
-        'from_name' => env('MAIL_FROM_NAME', 'Lost and Found Office'),
-        'encryption' => env('MAIL_ENCRYPTION', 'tls'),
-        'timeout' => (int) env('MAIL_TIMEOUT', '12'),
+    'twilio' => [
+        'account_sid' => env('TWILIO_ACCOUNT_SID', ''),
+        'auth_token' => env('TWILIO_AUTH_TOKEN', ''),
+        'from_number' => env('TWILIO_FROM_NUMBER', ''),
+        'messaging_service_sid' => env('TWILIO_MESSAGING_SERVICE_SID', ''),
+        'otp_fallback_phone' => env('OTP_FALLBACK_PHONE', ''),
+        'timeout' => (int) env('TWILIO_TIMEOUT', '12'),
     ],
     'cloudinary' => [
         'cloud_name' => env('CLOUDINARY_CLOUD_NAME', ''),

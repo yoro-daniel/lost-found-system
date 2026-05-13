@@ -21,9 +21,9 @@ class Activity
         return $stmt->fetchAll();
     }
 
-    public static function emailLogs(int $limit = 10): array
+    public static function smsLogs(int $limit = 10): array
     {
-        $stmt = Database::connection()->prepare('SELECT * FROM email_logs ORDER BY created_at DESC LIMIT ?');
+        $stmt = Database::connection()->prepare('SELECT * FROM sms_logs ORDER BY created_at DESC LIMIT ?');
         $stmt->bindValue(1, $limit, \PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchAll();

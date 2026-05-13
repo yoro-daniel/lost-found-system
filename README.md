@@ -5,14 +5,14 @@ Modern PHP, MySQL, Bootstrap, and JavaScript web application for reporting, sear
 ## Features
 
 - Authentication with admin and user roles.
-- Email OTP verification before login is completed.
+- SMS OTP verification before login is completed.
 - Lost item and found item reports with image uploads.
 - Cloudinary image uploads with validated files and optimized delivery URLs.
 - Smart search and filters by keyword, type, status, category, and location.
 - Claim request workflow with admin approval/rejection.
 - Admin dashboard with statistics, charts, activity logs, users, and reports.
 - Toast notifications, client-side validation, responsive UI, and dark mode.
-- Reusable PHPMailer Gmail SMTP email service.
+- Reusable Twilio SMS service for OTP and notifications.
 - MVC-like folders: `Controllers`, `Models`, `Views`, `Services`, `Core`.
 
 ## Setup
@@ -24,10 +24,10 @@ database/schema.sql
 database/seed.sql
 ```
 
-2. Copy `.env.example` to `.env` and update MySQL and Gmail SMTP values.
+2. Copy `.env.example` to `.env` and update MySQL and Twilio values.
    Add Cloudinary `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, and `CLOUDINARY_API_SECRET` to enable item image uploads.
 
-3. Install PHPMailer:
+3. Install Composer dependencies:
 
 ```powershell
 composer install
@@ -43,25 +43,25 @@ php -S 127.0.0.1:8000 -t public
 
 ## Deployment
 
-For Render, GitHub, MySQL Workbench, PHPMailer, and Cloudinary deployment steps, see [DEPLOYMENT.md](DEPLOYMENT.md).
+For Render, GitHub, MySQL Workbench, Twilio, and Cloudinary deployment steps, see [DEPLOYMENT.md](DEPLOYMENT.md).
 
 ## Demo Accounts
 
 - Admin: `schoolyoro@gmail.com` / `Testing!1`
 - User: `user@lostfound.test` / `user123`
 
-## Email Integration
+## Twilio SMS Integration
 
-The app uses `app/Services/EmailService.php` and PHPMailer. Gmail requires an app password, not your normal Gmail password.
+The app uses `app/Services/SmsService.php` and Twilio Programmable Messaging.
 
-Emails are attempted for:
+SMS messages are attempted for:
 
 - Login OTP verification.
-- Report confirmations.
-- Possible matching items.
-- Claim approval or rejection decisions.
+- Report confirmations when a phone number is provided.
+- Possible matching items when a phone number is provided.
+- Claim approval or rejection decisions when the claimant phone is provided.
 
-Failures are stored in the `email_logs` table for admin review.
+Failures are stored in the `sms_logs` table for admin review.
 
 ## Cloudinary Integration
 

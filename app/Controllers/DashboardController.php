@@ -29,7 +29,7 @@ class DashboardController extends Controller
             'stats' => $stats,
             'byCategory' => $byCategory,
             'activities' => Activity::recent(8),
-            'emailLogs' => Activity::emailLogs(6),
+            'smsLogs' => Activity::smsLogs(6),
             'users' => User::all(),
         ]);
     }

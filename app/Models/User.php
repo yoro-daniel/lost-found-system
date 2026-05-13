@@ -25,18 +25,19 @@ class User
     public static function all(): array
     {
         return Database::connection()
-            ->query('SELECT id, name, email, role, status, created_at FROM users ORDER BY role, name')
+            ->query('SELECT id, name, email, phone, role, status, created_at FROM users ORDER BY role, name')
             ->fetchAll();
     }
 
     public static function create(array $data): int
     {
         $stmt = Database::connection()->prepare(
-            'INSERT INTO users (name, email, password_hash, role, status) VALUES (?, ?, ?, ?, ?)'
+            'INSERT INTO users (name, email, phone, password_hash, role, status) VALUES (?, ?, ?, ?, ?, ?)'
         );
         $stmt->execute([
             $data['name'],
             $data['email'],
+            $data['phone'] ?? null,
             password_hash($data['password'], PASSWORD_BCRYPT),
             $data['role'] ?? 'user',
             $data['status'] ?? 'active',
@@ -46,8 +47,8 @@ class User
 
     public static function update(int $id, array $data): void
     {
-        $stmt = Database::connection()->prepare('UPDATE users SET name = ?, role = ?, status = ? WHERE id = ?');
-        $stmt->execute([$data['name'], $data['role'], $data['status'], $id]);
+        $stmt = Database::connection()->prepare('UPDATE users SET name = ?, phone = ?, role = ?, status = ? WHERE id = ?');
+        $stmt->execute([$data['name'], $data['phone'] ?? null, $data['role'], $data['status'], $id]);
     }
 
     public static function delete(int $id): void

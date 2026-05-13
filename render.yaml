@@ -28,21 +28,17 @@ services:
         sync: false
       - key: DB_SSL_CA
         sync: false
-      - key: MAIL_HOST
-        value: smtp.gmail.com
-      - key: MAIL_PORT
-        value: "587"
-      - key: MAIL_USERNAME
+      - key: TWILIO_ACCOUNT_SID
         sync: false
-      - key: MAIL_PASSWORD
+      - key: TWILIO_AUTH_TOKEN
         sync: false
-      - key: MAIL_FROM_ADDRESS
+      - key: TWILIO_FROM_NUMBER
         sync: false
-      - key: MAIL_FROM_NAME
-        value: Lost and Found Office
-      - key: MAIL_ENCRYPTION
-        value: tls
-      - key: MAIL_TIMEOUT
+      - key: TWILIO_MESSAGING_SERVICE_SID
+        sync: false
+      - key: OTP_FALLBACK_PHONE
+        sync: false
+      - key: TWILIO_TIMEOUT
         value: "12"
       - key: CLOUDINARY_CLOUD_NAME
         sync: false

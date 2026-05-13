@@ -2,6 +2,7 @@
   <div class="auth-panel">
     <p class="eyebrow">Campus Recovery Desk</p>
     <h1>Sign in to manage lost and found records.</h1>
+    <p class="text-secondary">After your password is accepted, the system sends an SMS OTP to your registered phone.</p>
     <p class="text-secondary">Demo admin: schoolyoro@gmail.com / Testing!1</p>
     <form method="post" action="<?= url('login.post') ?>" class="needs-validation mt-4" novalidate>
       <?= csrf_field() ?>

@@ -8,6 +8,9 @@
       <input class="form-control" name="name" required>
       <label class="form-label mt-3">Email</label>
       <input class="form-control" type="email" name="email" required>
+      <label class="form-label mt-3">Phone number</label>
+      <input class="form-control" name="phone" placeholder="+639171234567" pattern="^\+[1-9][0-9]{7,14}$" required>
+      <div class="form-text">Use E.164 format, including country code.</div>
       <label class="form-label mt-3">Password</label>
       <input class="form-control" type="password" name="password" minlength="8" pattern="(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{8,}" required>
       <div class="form-text">Use at least 8 characters with 1 uppercase letter, 1 number, and 1 special character.</div>

@@ -7,7 +7,7 @@ use App\Core\Controller;
 use App\Core\Validator;
 use App\Models\User;
 use App\Services\ActivityLogger;
-use App\Services\EmailService;
+use App\Services\SmsService;
 
 class AuthController extends Controller
 {
@@ -36,14 +36,23 @@ class AuthController extends Controller
             'attempts' => 0,
         ];
 
-        if (!(new EmailService())->sendLoginOtp($user, $otp)) {
+        $sms = new SmsService();
+        $otpPhone = $sms->normalizePhone($user['phone'] ?? '') ?: $sms->normalizePhone(config('twilio.otp_fallback_phone'));
+
+        if (!$otpPhone) {
             unset($_SESSION['pending_login']);
-            flash('danger', 'The password was correct, but the OTP email could not be sent. Check SMTP settings and email logs.');
+            flash('danger', 'No valid phone number is available for SMS OTP. Add a phone number in E.164 format, e.g. +639171234567.');
             redirect('login');
         }
 
-        ActivityLogger::log('login_otp_sent', 'Sent login OTP email.', (int) $user['id']);
-        flash('success', 'We sent a login OTP to ' . $user['email'] . '.');
+        if (!$sms->sendLoginOtp($user, $otp, $otpPhone)) {
+            unset($_SESSION['pending_login']);
+            flash('danger', 'The password was correct, but the SMS OTP could not be sent. Check Twilio settings and SMS logs.');
+            redirect('login');
+        }
+
+        ActivityLogger::log('login_otp_sent', 'Sent login OTP SMS.', (int) $user['id']);
+        flash('success', 'We sent a login OTP to your registered phone number.');
         redirect('otp');
     }
 
@@ -114,9 +123,13 @@ class AuthController extends Controller
         $errors = Validator::required($_POST, [
             'name' => 'Name',
             'email' => 'Email',
+            'phone' => 'Phone number',
             'password' => 'Password',
         ]);
         $errors = array_merge($errors, Validator::email($_POST['email'] ?? '', 'Email'));
+        if (!(new SmsService())->normalizePhone($_POST['phone'] ?? '')) {
+            $errors[] = 'Phone number must use E.164 format, e.g. +639171234567.';
+        }
 
         $password = (string) ($_POST['password'] ?? '');
         if (strlen($password) < 8) {
@@ -149,6 +162,7 @@ class AuthController extends Controller
         $id = User::create([
             'name' => trim($_POST['name']),
             'email' => trim($_POST['email']),
+            'phone' => trim($_POST['phone']),
             'password' => $_POST['password'],
             'role' => 'user',
         ]);

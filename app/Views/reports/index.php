@@ -30,5 +30,5 @@
 </section>
 <div class="row g-4 mt-1">
   <div class="col-lg-6"><section class="panel"><h2>Activity Logs</h2><?php foreach ($activities as $activity): ?><p class="report-line"><strong><?= h($activity['action']) ?></strong> - <?= h($activity['description']) ?><small><?= h($activity['created_at']) ?></small></p><?php endforeach; ?></section></div>
-  <div class="col-lg-6"><section class="panel"><h2>Email Logs</h2><?php foreach ($emailLogs as $log): ?><p class="report-line"><strong><?= h($log['status']) ?></strong> - <?= h($log['recipient_email']) ?><small><?= h($log['subject']) ?></small></p><?php endforeach; ?></section></div>
+  <div class="col-lg-6"><section class="panel"><h2>SMS Logs</h2><?php foreach ($smsLogs as $log): ?><p class="report-line"><strong><?= h($log['status']) ?></strong> - <?= h($log['recipient_phone']) ?><small><?= h($log['message']) ?></small></p><?php endforeach; ?></section></div>
 </div>

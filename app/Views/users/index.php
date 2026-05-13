@@ -7,6 +7,7 @@
         <?= csrf_field() ?>
         <label class="form-label">Name</label><input class="form-control" name="name" required>
         <label class="form-label mt-3">Email</label><input class="form-control" type="email" name="email" required>
+        <label class="form-label mt-3">Phone</label><input class="form-control" name="phone" placeholder="+639171234567" pattern="^\+[1-9][0-9]{7,14}$" required>
         <label class="form-label mt-3">Password</label><input class="form-control" type="password" name="password" required>
         <div class="row g-2 mt-1">
           <div class="col"><label class="form-label">Role</label><select class="form-select" name="role"><option value="user">User</option><option value="admin">Admin</option></select></div>
@@ -20,7 +21,7 @@
     <section class="panel">
       <div class="table-responsive">
         <table class="table align-middle">
-          <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Status</th><th>Save</th></tr></thead>
+          <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Role</th><th>Status</th><th>Save</th></tr></thead>
           <tbody>
             <?php foreach ($users as $row): ?>
               <tr>
@@ -28,6 +29,7 @@
                   <?= csrf_field() ?><input type="hidden" name="id" value="<?= (int) $row['id'] ?>">
                   <td><input class="form-control form-control-sm" name="name" value="<?= h($row['name']) ?>"></td>
                   <td><?= h($row['email']) ?></td>
+                  <td><input class="form-control form-control-sm" name="phone" value="<?= h($row['phone'] ?? '') ?>" placeholder="+639171234567" pattern="^\+[1-9][0-9]{7,14}$"></td>
                   <td><select class="form-select form-select-sm" name="role"><option value="user" <?= $row['role'] === 'user' ? 'selected' : '' ?>>User</option><option value="admin" <?= $row['role'] === 'admin' ? 'selected' : '' ?>>Admin</option></select></td>
                   <td><select class="form-select form-select-sm" name="status"><option value="active" <?= $row['status'] === 'active' ? 'selected' : '' ?>>Active</option><option value="inactive" <?= $row['status'] === 'inactive' ? 'selected' : '' ?>>Inactive</option></select></td>
                   <td><button class="btn btn-sm btn-outline-primary">Save</button></td>

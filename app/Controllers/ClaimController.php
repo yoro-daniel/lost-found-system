@@ -8,7 +8,7 @@ use App\Core\Validator;
 use App\Models\Claim;
 use App\Models\Item;
 use App\Services\ActivityLogger;
-use App\Services\EmailService;
+use App\Services\SmsService;
 
 class ClaimController extends Controller
 {
@@ -62,11 +62,11 @@ class ClaimController extends Controller
 
         $claim = Claim::review((int) ($_POST['claim_id'] ?? 0), $status, current_user()['id']);
         if ($claim) {
-            (new EmailService())->sendClaimDecision($claim, $status);
+            (new SmsService())->sendClaimDecision($claim, $status);
             ActivityLogger::log('claim_reviewed', 'Marked claim #' . $claim['id'] . ' as ' . $status . '.');
         }
 
-        flash('success', 'Claim ' . $status . '. Email notification was attempted.');
+        flash('success', 'Claim ' . $status . '. SMS notification was attempted.');
         redirect('claims');
     }
 }

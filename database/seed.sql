@@ -1,8 +1,8 @@
 USE defaultdb;
 
-INSERT INTO users (name, email, password_hash, role, status) VALUES
-('System Admin', 'schoolyoro@gmail.com', '$2y$10$IDApOwVt4JLO1BIxLJB8R.txR5MDiyq2zHgioZzb9s2tXi17C1m.y', 'admin', 'active'),
-('Student User', 'user@lostfound.test', '$2y$10$pst61CsxASRS3MbjlaMVQ.85pLd25so9cot3xGh7I8BM70QHcYdk2', 'user', 'active');
+INSERT INTO users (name, email, phone, password_hash, role, status) VALUES
+('System Admin', 'schoolyoro@gmail.com', NULL, '$2y$10$IDApOwVt4JLO1BIxLJB8R.txR5MDiyq2zHgioZzb9s2tXi17C1m.y', 'admin', 'active'),
+('Student User', 'user@lostfound.test', NULL, '$2y$10$pst61CsxASRS3MbjlaMVQ.85pLd25so9cot3xGh7I8BM70QHcYdk2', 'user', 'active');
 
 INSERT INTO categories (name) VALUES
 ('Electronics'), ('Documents'), ('Bags'), ('Keys'), ('Clothing'), ('Accessories'), ('Others');

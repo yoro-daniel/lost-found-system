@@ -8,7 +8,7 @@ use App\Core\Validator;
 use App\Models\Item;
 use App\Services\ActivityLogger;
 use App\Services\CloudinaryUploadService;
-use App\Services\EmailService;
+use App\Services\SmsService;
 use RuntimeException;
 
 class ItemController extends Controller
@@ -72,17 +72,15 @@ class ItemController extends Controller
         $item = Item::find($id);
 
         ActivityLogger::log('item_created', 'Reported ' . $item['type'] . ' item: ' . $item['title']);
-        $email = new EmailService();
-        $email->sendReportConfirmation($item, $item['contact_email']);
+        $sms = new SmsService();
+        $sms->sendReportConfirmation($item, $item['contact_phone']);
 
         foreach (Item::findPotentialMatches($item) as $match) {
-            $email->sendMatchFound($item, $match, $item['contact_email']);
-            if (!empty($match['reporter_email'])) {
-                $email->sendMatchFound($match, $item, $match['reporter_email']);
-            }
+            $sms->sendMatchFound($item, $match, $item['contact_phone']);
+            $sms->sendMatchFound($match, $item, $match['contact_phone'] ?? null);
         }
 
-        flash('success', 'Item report saved. Matching notifications were attempted.');
+        flash('success', 'Item report saved. Matching SMS notifications were attempted.');
         redirect('items');
     }
 
