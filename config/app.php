@@ -17,6 +17,8 @@ return [
         'pass' => isset($parsedDatabaseUrl['pass'])
             ? rawurldecode($parsedDatabaseUrl['pass'])
             : env('DB_PASS', ''),
+        'ssl_ca_path' => env('DB_SSL_CA_PATH', ''),
+        'ssl_ca' => env('DB_SSL_CA', ''),
     ],
     'mail' => [
         'host' => env('MAIL_HOST', 'smtp.gmail.com'),

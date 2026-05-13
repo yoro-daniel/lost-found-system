@@ -97,6 +97,36 @@ DATABASE_URL=mysql://username:password@host:3306/database_name
 
 If `DATABASE_URL` is set, it overrides the individual `DB_*` variables.
 
+### Aiven MySQL Values
+
+For your Aiven service, use these Render variables:
+
+```env
+DB_HOST=lostfound-db-lost-found-system.h.aivencloud.com
+DB_PORT=19912
+DB_NAME=defaultdb
+DB_USER=avnadmin
+DB_PASS=your-aiven-password
+```
+
+Aiven requires SSL. Add another Render variable named `DB_SSL_CA` and paste the full CA certificate value, including:
+
+```text
+-----BEGIN CERTIFICATE-----
+...
+-----END CERTIFICATE-----
+```
+
+Do not add quotation marks around the certificate in Render. Paste it as a multi-line value.
+
+You may also use `DATABASE_URL` instead of the separate `DB_*` variables:
+
+```env
+DATABASE_URL=mysql://avnadmin:your-aiven-password@lostfound-db-lost-found-system.h.aivencloud.com:19912/defaultdb
+```
+
+Still add `DB_SSL_CA` because the app needs the Aiven CA certificate for SSL.
+
 ## 6. PHPMailer Gmail SMTP on Render
 
 Add these Render environment variables:
