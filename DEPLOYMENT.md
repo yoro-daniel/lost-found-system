@@ -140,6 +140,7 @@ Still add `DB_SSL_CA` because the app needs the Aiven CA certificate for SSL.
    - Account SID
    - Auth Token
    - Twilio phone number
+   - Verify Service SID, from `Verify > Services`
 
 For trial accounts, Twilio only sends SMS to verified recipient phone numbers. Add your phone in Twilio Console under verified caller IDs or verified recipients before testing OTP.
 
@@ -150,6 +151,7 @@ TWILIO_ACCOUNT_SID=your-account-sid
 TWILIO_AUTH_TOKEN=your-auth-token
 TWILIO_FROM_NUMBER=+15551234567
 TWILIO_MESSAGING_SERVICE_SID=
+TWILIO_VERIFY_SERVICE_SID=VAxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 OTP_FALLBACK_PHONE=+639171234567
 TWILIO_TIMEOUT=12
 ```
@@ -158,6 +160,7 @@ Important:
 
 - Use E.164 phone number format, including the plus sign and country code.
 - On a Twilio trial account, the OTP recipient must be a verified recipient number in Twilio.
+- Login OTP uses Twilio Verify, so `TWILIO_VERIFY_SERVICE_SID` must be your real `VA...` service SID.
 - `OTP_FALLBACK_PHONE` is used for seeded/demo users that do not yet have a phone number in the database.
 - If you use a Twilio Messaging Service, set `TWILIO_MESSAGING_SERVICE_SID`; otherwise leave it blank and use `TWILIO_FROM_NUMBER`.
 

@@ -8,6 +8,7 @@ use App\Core\Validator;
 use App\Models\User;
 use App\Services\ActivityLogger;
 use App\Services\SmsService;
+use App\Services\TwilioVerifyService;
 
 class AuthController extends Controller
 {
@@ -28,14 +29,6 @@ class AuthController extends Controller
             redirect('login');
         }
 
-        $otp = (string) random_int(100000, 999999);
-        $_SESSION['pending_login'] = [
-            'user_id' => (int) $user['id'],
-            'otp_hash' => password_hash($otp, PASSWORD_BCRYPT),
-            'expires_at' => time() + 600,
-            'attempts' => 0,
-        ];
-
         $sms = new SmsService();
         $otpPhone = $sms->normalizePhone($user['phone'] ?? '') ?: $sms->normalizePhone(config('twilio.otp_fallback_phone'));
 
@@ -45,11 +38,17 @@ class AuthController extends Controller
             redirect('login');
         }
 
-        if (!$sms->sendLoginOtp($user, $otp, $otpPhone)) {
-            unset($_SESSION['pending_login']);
+        if (!(new TwilioVerifyService())->start($otpPhone)) {
             flash('danger', 'The password was correct, but the SMS OTP could not be sent. Check Twilio settings and SMS logs.');
             redirect('login');
         }
+
+        $_SESSION['pending_login'] = [
+            'user_id' => (int) $user['id'],
+            'phone' => $otpPhone,
+            'expires_at' => time() + 600,
+            'attempts' => 0,
+        ];
 
         ActivityLogger::log('login_otp_sent', 'Sent login OTP SMS.', (int) $user['id']);
         flash('success', 'We sent a login OTP to your registered phone number.');
@@ -88,7 +87,7 @@ class AuthController extends Controller
             redirect('login');
         }
 
-        if (!password_verify(trim($_POST['otp'] ?? ''), $pending['otp_hash'])) {
+        if (!(new TwilioVerifyService())->check($pending['phone'], trim($_POST['otp'] ?? ''))) {
             flash('danger', 'Invalid OTP code.');
             redirect('otp');
         }

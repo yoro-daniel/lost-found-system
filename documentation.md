@@ -11,7 +11,7 @@ flowchart TD
   Controllers --> Models["Models"]
   Controllers --> Services["Services: Twilio SMS, Cloudinary Upload, Activity Log"]
   Models --> MySQL["MySQL Database"]
-  Services --> Twilio["Twilio Programmable Messaging API"]
+  Services --> Twilio["Twilio Verify and Messaging APIs"]
   Services --> Cloudinary["Cloudinary Image Upload API"]
   Services --> Logs["sms_logs and activity_logs"]
 ```

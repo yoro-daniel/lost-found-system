@@ -25,6 +25,7 @@ return [
         'auth_token' => env('TWILIO_AUTH_TOKEN', ''),
         'from_number' => env('TWILIO_FROM_NUMBER', ''),
         'messaging_service_sid' => env('TWILIO_MESSAGING_SERVICE_SID', ''),
+        'verify_service_sid' => env('TWILIO_VERIFY_SERVICE_SID', ''),
         'otp_fallback_phone' => env('OTP_FALLBACK_PHONE', ''),
         'timeout' => (int) env('TWILIO_TIMEOUT', '12'),
     ],

@@ -12,7 +12,7 @@ Modern PHP, MySQL, Bootstrap, and JavaScript web application for reporting, sear
 - Claim request workflow with admin approval/rejection.
 - Admin dashboard with statistics, charts, activity logs, users, and reports.
 - Toast notifications, client-side validation, responsive UI, and dark mode.
-- Reusable Twilio SMS service for OTP and notifications.
+- Twilio Verify OTP login plus reusable Twilio SMS service for notifications.
 - MVC-like folders: `Controllers`, `Models`, `Views`, `Services`, `Core`.
 
 ## Setup
@@ -53,6 +53,7 @@ For Render, GitHub, MySQL Workbench, Twilio, and Cloudinary deployment steps, se
 ## Twilio SMS Integration
 
 The app uses `app/Services/SmsService.php` and Twilio Programmable Messaging.
+Login OTP uses `app/Services/TwilioVerifyService.php` and Twilio Verify.
 
 SMS messages are attempted for:
 
