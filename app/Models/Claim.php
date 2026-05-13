@@ -44,7 +44,7 @@ class Claim
 
         if ($status === 'approved') {
             Database::connection()->prepare(
-                'UPDATE items SET status = "claimed", updated_at = CURRENT_TIMESTAMP
+                'UPDATE items SET status = \'claimed\', updated_at = CURRENT_TIMESTAMP
                  WHERE id = (SELECT item_id FROM claims WHERE id = ?)'
             )->execute([$id]);
         }
@@ -59,6 +59,6 @@ class Claim
 
     public static function pendingCount(): int
     {
-        return (int) Database::connection()->query('SELECT COUNT(*) FROM claims WHERE status = "pending"')->fetchColumn();
+        return (int) Database::connection()->query('SELECT COUNT(*) FROM claims WHERE status = \'pending\'')->fetchColumn();
     }
 }

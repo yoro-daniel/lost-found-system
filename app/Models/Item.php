@@ -125,7 +125,7 @@ class Item
              FROM items i
              JOIN users u ON u.id = i.reporter_id
              WHERE i.type = ?
-               AND i.status IN ("open", "matched")
+               AND i.status IN (\'open\', \'matched\')
                AND i.id <> ?
                AND (i.category_id = ? OR i.location_id = ? OR i.title LIKE ?)
              ORDER BY i.created_at DESC
@@ -140,10 +140,10 @@ class Item
     {
         return Database::connection()->query(
             'SELECT
-                SUM(type = "lost") AS lost_total,
-                SUM(type = "found") AS found_total,
-                SUM(status = "claimed") AS claimed_total,
-                SUM(status = "open") AS open_total
+                SUM(type = \'lost\') AS lost_total,
+                SUM(type = \'found\') AS found_total,
+                SUM(status = \'claimed\') AS claimed_total,
+                SUM(status = \'open\') AS open_total
              FROM items'
         )->fetch() ?: [];
     }
