@@ -27,6 +27,8 @@ return [
         'password' => env('MAIL_PASSWORD', ''),
         'from_address' => env('MAIL_FROM_ADDRESS', ''),
         'from_name' => env('MAIL_FROM_NAME', 'Lost and Found Office'),
+        'encryption' => env('MAIL_ENCRYPTION', 'tls'),
+        'timeout' => (int) env('MAIL_TIMEOUT', '12'),
     ],
     'cloudinary' => [
         'cloud_name' => env('CLOUDINARY_CLOUD_NAME', ''),

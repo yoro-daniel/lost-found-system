@@ -70,8 +70,18 @@ class EmailService
             $mail->SMTPAuth = true;
             $mail->Username = $mailConfig['username'];
             $mail->Password = $mailConfig['password'];
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->SMTPSecure = $mailConfig['encryption'] === 'ssl'
+                ? PHPMailer::ENCRYPTION_SMTPS
+                : PHPMailer::ENCRYPTION_STARTTLS;
             $mail->Port = $mailConfig['port'];
+            $mail->Timeout = max(5, (int) $mailConfig['timeout']);
+            $mail->SMTPOptions = [
+                'ssl' => [
+                    'verify_peer' => false,
+                    'verify_peer_name' => false,
+                    'allow_self_signed' => true,
+                ],
+            ];
             $mail->setFrom($mailConfig['from_address'] ?: $mailConfig['username'], $mailConfig['from_name']);
             $mail->addAddress($to);
             $mail->isHTML(true);

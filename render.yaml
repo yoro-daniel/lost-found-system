@@ -40,6 +40,10 @@ services:
         sync: false
       - key: MAIL_FROM_NAME
         value: Lost and Found Office
+      - key: MAIL_ENCRYPTION
+        value: tls
+      - key: MAIL_TIMEOUT
+        value: "12"
       - key: CLOUDINARY_CLOUD_NAME
         sync: false
       - key: CLOUDINARY_API_KEY
