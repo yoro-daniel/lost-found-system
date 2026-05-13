@@ -41,9 +41,13 @@ php -S 127.0.0.1:8000 -t public
 
 5. Open `http://127.0.0.1:8000`.
 
+## Deployment
+
+For Render, GitHub, MySQL Workbench, PHPMailer, and Cloudinary deployment steps, see [DEPLOYMENT.md](DEPLOYMENT.md).
+
 ## Demo Accounts
 
-- Admin: `admin@lostfound.test` / `admin123`
+- Admin: `schoolyoro@gmail.com` / `Testing!1`
 - User: `user@lostfound.test` / `user123`
 
 ## Email Integration

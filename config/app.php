@@ -1,13 +1,22 @@
 <?php
+$databaseUrl = env('DATABASE_URL', '');
+$parsedDatabaseUrl = $databaseUrl ? parse_url($databaseUrl) : [];
+
 return [
     'name' => env('APP_NAME', 'Lost and Found Management System'),
     'url' => env('APP_URL', 'http://localhost/Lost%20and%20Found/public'),
     'database' => [
-        'host' => env('DB_HOST', '127.0.0.1'),
-        'port' => env('DB_PORT', '3306'),
-        'name' => env('DB_NAME', 'lost_found_management'),
-        'user' => env('DB_USER', 'root'),
-        'pass' => env('DB_PASS', ''),
+        'host' => $parsedDatabaseUrl['host'] ?? env('DB_HOST', '127.0.0.1'),
+        'port' => (string) ($parsedDatabaseUrl['port'] ?? env('DB_PORT', '3306')),
+        'name' => isset($parsedDatabaseUrl['path'])
+            ? ltrim($parsedDatabaseUrl['path'], '/')
+            : env('DB_NAME', 'lost_found_management'),
+        'user' => isset($parsedDatabaseUrl['user'])
+            ? rawurldecode($parsedDatabaseUrl['user'])
+            : env('DB_USER', 'root'),
+        'pass' => isset($parsedDatabaseUrl['pass'])
+            ? rawurldecode($parsedDatabaseUrl['pass'])
+            : env('DB_PASS', ''),
     ],
     'mail' => [
         'host' => env('MAIL_HOST', 'smtp.gmail.com'),

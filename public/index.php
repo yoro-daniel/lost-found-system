@@ -15,6 +15,10 @@ $method = $_SERVER['REQUEST_METHOD'];
 
 $routes = [
     'GET' => [
+        'health' => static function (): void {
+            header('Content-Type: application/json');
+            echo json_encode(['status' => 'ok']);
+        },
         'login' => [AuthController::class, 'login'],
         'otp' => [AuthController::class, 'otp'],
         'register' => [AuthController::class, 'register'],
@@ -41,10 +45,16 @@ $routes = [
     ],
 ];
 
-if (!isset($routes[$method][$route])) {
+$handler = $routes[$method][$route] ?? null;
+if (!$handler) {
     http_response_code(404);
     exit('Route not found.');
 }
 
-[$controller, $action] = $routes[$method][$route];
+if (is_callable($handler)) {
+    $handler();
+    exit;
+}
+
+[$controller, $action] = $handler;
 (new $controller())->$action();
