@@ -1,8 +1,4 @@
-CREATE DATABASE IF NOT EXISTS lost_found_management
-  CHARACTER SET utf8mb4
-  COLLATE utf8mb4_unicode_ci;
-
-USE lost_found_management;
+USE defaultdb;
 
 DROP TABLE IF EXISTS activity_logs;
 DROP TABLE IF EXISTS email_logs;

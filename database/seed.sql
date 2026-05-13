@@ -1,4 +1,4 @@
-USE lost_found_management;
+USE defaultdb;
 
 INSERT INTO users (name, email, password_hash, role, status) VALUES
 ('System Admin', 'schoolyoro@gmail.com', '$2y$10$IDApOwVt4JLO1BIxLJB8R.txR5MDiyq2zHgioZzb9s2tXi17C1m.y', 'admin', 'active'),
